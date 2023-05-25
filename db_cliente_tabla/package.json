@@ -1,0 +1,90 @@
+{
+  "name": "api-notifications",
+  "version": "0.0.1",
+  "description": "the notifications api/service",
+  "main": "index.js",
+  "scripts": {
+    "commit": "git cz",
+    "commitmsg": "validate-commit-msg",
+    "coverage": "istanbul cover node_modules/tape/bin/tape -- tape './src/api/server.test.js' 'src/**/*.test.js' './src/config/objection.down.js' | tap-spec",
+    "dev": "nodemon src/index.js --ignore src/**/*.test.js",
+    "migrate": "knex migrate:latest",
+    "new-migrate": "knex migrate:make",
+    "lint": "eslint \"src/**/*.js\"",
+    "pretint": "prettier-eslint --write \"src/**/*.js\"",
+    "precommit": "lint-staged && npm test",
+    "cron": "pm2 start src/models/setInterval.js --name=notifications -i max",
+    "restart": "pm2 reload notifications",
+    "restart-server": "pm2 reload dp6-notifications",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "start": "pm2 start src/index.js --name=dp6-notifications -i max",
+    "test": "tape './src/api/server.test.js' 'src/**/*.test.js' './src/config/objection.down.js' | tap-spec"
+  },
+  "lint-staged": {
+    "linters": {
+      "src/**/*.js": [
+        "npm run pretint",
+        "git add"
+      ],
+      "*.md": [
+        "prettier --write",
+        "git add"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apprunn/dp6ApiNotifications.git"
+  },
+  "keywords": [],
+  "author": "Eduardo P. Rivero <jrperedo@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apprunn/dp6ApiNotifications/issues"
+  },
+  "homepage": "https://github.com/apprunn/dp6ApiNotifications#readme",
+  "dependencies": {
+    "axios": "0.18.0",
+    "bluebird": "3.5.1",
+    "boom": "7.2.0",
+    "date-fns": "1.29.0",
+    "dotenv": "5.0.1",
+    "firebase-admin": "5.11.0",
+    "glue": "5.0.0",
+    "handlebars": "4.0.11",
+    "hapi": "17.2.3",
+    "hapi-auth-bearer-token": "6.0.1",
+    "hapi-raven": "7.0.0",
+    "hapijs-status-monitor": "github:ziyasal/hapijs-status-monitor#fdefdfeec15e0bbad0b73d86dc2636d34847ed56",
+    "javascript-state-machine": "3.0.1",
+    "joi": "13.1.2",
+    "knex": "0.14.4",
+    "lodash": "4.17.5",
+    "mysql": "2.15.0",
+    "nodemailer": "4.4.1",
+    "objection": "1.0.0",
+    "podium": "3.1.2",
+    "redis": "2.8.0"
+  },
+  "devDependencies": {
+    "commitizen": "2.9.6",
+    "cz-conventional-changelog": "2.1.0",
+    "eslint": "4.15.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0",
+    "husky": "0.14.3",
+    "istanbul": "0.4.5",
+    "lint-staged": "6.0.0",
+    "nodemon": "1.14.11",
+    "pm2": "2.9.1",
+    "prettier": "1.10.2",
+    "prettier-eslint-cli": "4.7.0",
+    "tap-spec": "4.1.1",
+    "tape": "4.8.0",
+    "validate-commit-msg": "2.14.0"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": ">= 5.5.1"
+  }
+}
